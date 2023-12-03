@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-
+import  Navbar  from "./components/navbar/navbar";
 function App() {
 
   const [backendData, setBackendData] = useState([{}])
@@ -15,7 +15,10 @@ function App() {
   },[])
 
   return (
-    <div>
+    <div className = "App">
+      <Navbar />
+      
+     {/*
       {(typeof backendData.message === 'undefined') ? (
         <p>Loading...</p>
       ): (
@@ -23,6 +26,7 @@ function App() {
           <p key={index}>{item}</p>
         ))
       )}
+        */}
     </div>
   )
 }
