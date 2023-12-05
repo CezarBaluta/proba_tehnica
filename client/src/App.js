@@ -3,20 +3,34 @@ import  Navbar  from "./components/navbar/navbar";
 function App() {
 
   const [backendData, setBackendData] = useState([{}])
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    fetch('/api').then(
-      res => res.json()
-      ).then(
-        data => {
-          setBackendData(data)
-        }
-      )
-  },[])
+    if (isLoggedIn) {
+      fetch('/api')
+        .then((res) => res.json())
+        .then((data) => {
+          setBackendData(data);
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+        });
+    }
+  },[isLoggedIn]);
+
+  const Login = (token) => {
+    localStorage.setItem('token', token);
+    setIsLoggedIn(true);
+  };
+
+  const Logout = () => {
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+  };
 
   return (
     <div className = "App">
-      <Navbar />
+      <Navbar isLoggedIn={isLoggedIn} onLogout={Logout} />
       
      {/*
       {(typeof backendData.message === 'undefined') ? (

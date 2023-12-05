@@ -7,6 +7,7 @@ import  RegisterModal  from "../modals/modalRegister.js";
 const NavBar = () => {
   const [showRegister, setShowRegister] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  
 
   const handleLoginShow = () => setShowLogin(true);
   const handleLoginClose = () => setShowLogin(false);
@@ -16,7 +17,7 @@ const NavBar = () => {
   const handleRegisterShow = () => setShowRegister(true);
 
   return (
-    <NavbarWrapper data-testid="Navbar">
+    <NavbarWrapper data-testid="Navbar" >
       <Navbar bg="" expand="lg">
         <Navbar.Brand href="#home">
           <Image className="image" src="/logo.png" alt="Logo" fluid />
