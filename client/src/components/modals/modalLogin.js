@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {  CustomModal } from './modal.styled';
 import {  Button, Form } from 'react-bootstrap';
 
-const ModalLogin = ({ show, onHide, onLogin }) => {
+const ModalLogin = ({ show, onHide, onLogin, onLogout }) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

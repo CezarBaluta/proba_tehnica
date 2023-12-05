@@ -45,7 +45,7 @@ passport.deserializeUser(User.deserializeUser());
 
 
 const generateToken = (user) => {
-  return jwt.sign({ _id: user._id, email: user.email }, process.env.JWT_SECRET, {
+  return jwt.sign({email: user }, process.env.JWT_SECRET, {
     expiresIn: '1h', // tokenul expira dupa 1h
   });
 };
@@ -78,6 +78,31 @@ app.post('/login', passport.authenticate('local', { session: false }), (req, res
     res.json({ message: 'Login successful', token });
   });
   
+
+  const verifyToken = (req, res, next) => {
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+  
+    if (!token) {
+      return res.status(401).json({ message: 'Unauthorized: No token provided' });
+    }
+
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = decoded;
+      console.log(decoded);
+      next();
+    } catch (error) {
+      return res.status(401).json({ message: 'Unauthorized: Invalid token' });
+    }
+  };
+  
+  app.post('/polls', verifyToken, (req, res) => {
+    // If the token is valid, req.user will contain the decoded payload
+    // Process the POST request here
+    console.log(req.body.name);
+    res.json({ message: 'Data received successfully!', user: req.user });
+  });
+
 app.get('/api', (req, res) => {
     res.json({ "message": ['Hello from server!',"LOL it works"] });
 });
