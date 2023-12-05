@@ -5,7 +5,10 @@ function App() {
   const [backendData, setBackendData] = useState([{}])
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  
+  
   useEffect(() => {
+    
     if (isLoggedIn) {
       fetch('/api')
         .then((res) => res.json())
@@ -21,6 +24,7 @@ function App() {
   const Login = (token) => {
     localStorage.setItem('token', token);
     setIsLoggedIn(true);
+
   };
 
   const Logout = () => {
@@ -30,7 +34,7 @@ function App() {
 
   return (
     <div className = "App">
-      <Navbar isLoggedIn={isLoggedIn} onLogout={Logout} />
+      <Navbar isLoggedIn={isLoggedIn} onLogin={Login} onLogout={Logout} />
       
      {/*
       {(typeof backendData.message === 'undefined') ? (
