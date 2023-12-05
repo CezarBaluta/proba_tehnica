@@ -110,6 +110,13 @@ app.post('/login', passport.authenticate('local', { session: false }), (req, res
     res.json({ message: 'Data received successfully!', saved:savedPoll });
   });
 
+  app.get('/polls', async (req, res) => {
+    const polls = await Poll.find({});
+      res.json(polls);
+   
+  
+});
+
 app.get('/api', (req, res) => {
     res.json({ "message": ['Hello from server!',"LOL it works"] });
 });
