@@ -11,8 +11,9 @@ const ModalRegister = ({ show, onHide }) => {
     const Register = async (e) => {
 
         e.preventDefault();
+        if(password === confirmPassword){
         try {
-
+            
         const response = await fetch('http://localhost:3000/register', {
             method: 'POST',
             headers: {
@@ -23,13 +24,16 @@ const ModalRegister = ({ show, onHide }) => {
     
         if (response.ok) {
             console.log('OK');
+            onHide();
         } else {
             console.log('Error');
         }
         } catch (error) {
         console.error('Error is:', error);
         }
+    
     };
+}
 
     return (
 
