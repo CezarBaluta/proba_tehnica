@@ -14,7 +14,34 @@ const PollModal = ({ show, onHide }) => {
 
     const options = [option1.trim(), option2.trim(), option3.trim(), option4.trim()];
         console.log({ title, votingType, options });
+        postData(options);
+
         onHide();
+    };
+
+
+const postData = async (options) => {
+    const token = localStorage.getItem('token');
+
+    try {
+        const response = await fetch('http://localhost:5000/polls', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ "title":title, "votingType":votingType, "options":options }),
+        });
+
+        if (response.ok) {
+        const data = await response.json();
+        console.log('Data from server:', data);
+        } else {
+        console.error('Failed to post data to the server');
+        }
+    } catch (error) {
+        console.error('Error posting data:', error);
+    }
     };
 
     return (

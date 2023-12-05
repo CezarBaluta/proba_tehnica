@@ -7,6 +7,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
 const jwt = require('jsonwebtoken');
 const User = require('./models/user'); 
+const Poll = require('./models/poll');
 const cors = require('cors');
 
 const app = express();
@@ -96,11 +97,17 @@ app.post('/login', passport.authenticate('local', { session: false }), (req, res
     }
   };
   
-  app.post('/polls', verifyToken, (req, res) => {
-    // If the token is valid, req.user will contain the decoded payload
-    // Process the POST request here
-    console.log(req.body.name);
-    res.json({ message: 'Data received successfully!', user: req.user });
+  app.post('/polls', verifyToken, async  (req, res) => {
+
+    console.log(req.body);
+    const { title, votingType, options } = req.body;
+    const newPoll = new Poll({
+      title,
+      votingType,
+      options,
+    });
+    const savedPoll = await newPoll.save();
+    res.json({ message: 'Data received successfully!', saved:savedPoll });
   });
 
 app.get('/api', (req, res) => {
