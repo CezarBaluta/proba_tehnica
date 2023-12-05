@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { NavbarWrapper ,CustomModal } from './navbar.styled';
 import { Navbar, Nav, Image, Button, Form } from 'react-bootstrap';
+import  LoginModal  from "../modals/modalLogin.js";
+import  RegisterModal  from "../modals/modalRegister.js";
 
 const NavBar = () => {
-  const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
 
-  const handleLoginClose = () => setShowLogin(false);
   const handleLoginShow = () => setShowLogin(true);
+  const handleLoginClose = () => setShowLogin(false);
+
 
   const handleRegisterClose = () => setShowRegister(false);
   const handleRegisterShow = () => setShowRegister(true);
@@ -27,60 +30,10 @@ const NavBar = () => {
         </Navbar.Collapse>
       </Navbar>
 
-      {/* Login Modal */}
-      <CustomModal show={showLogin} onHide={handleLoginClose} centered>
-        <CustomModal.Header closeButton>
-        </CustomModal.Header>
-        <CustomModal.Title>Login</CustomModal.Title>
+    <LoginModal show={showLogin} onHide={handleLoginClose} centered/>
 
-        <CustomModal.Body className="d-flex justify-content-center align-items-center">
-          <Form>
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label></Form.Label>
-              <Form.Control type="email" placeholder="Enter email" />
-            </Form.Group>
-
-            <Form.Group controlId="formBasicPassword">
-              <Form.Label></Form.Label>
-              <Form.Control type="password" placeholder="Password" />
-            </Form.Group>
-
-            <Button variant="primary" type="submit" className="mt-3">
-              Login
-            </Button>
-          </Form>
-        </CustomModal.Body>
-      </CustomModal>
-
-      {/* Register Modal */}
-      <CustomModal className = "modalCustom" show={showRegister} onHide={handleRegisterClose} centered>
-  <CustomModal.Header closeButton>
-  </CustomModal.Header>
-  <CustomModal.Title>Register</CustomModal.Title>
-
-  <CustomModal.Body className="d-flex justify-content-center align-items-center modalCustom">
-    <Form>
-      <Form.Group controlId="formBasicEmail">
-        <Form.Label></Form.Label>
-        <Form.Control type="email" placeholder="Enter email" />
-      </Form.Group>
-
-      <Form.Group controlId="formBasicPassword">
-        <Form.Label></Form.Label>
-        <Form.Control type="password" placeholder="Password" />
-      </Form.Group>
-
-      <Form.Group controlId="formConfirmPassword">
-        <Form.Label></Form.Label>
-        <Form.Control type="password" placeholder="Confirm Password" />
-      </Form.Group>
-
-      <Button variant="primary" type="submit" className="mt-3">
-        Create Account
-      </Button>
-    </Form>
-  </CustomModal.Body>
-</CustomModal>
+    <RegisterModal show={showRegister} onHide={handleRegisterClose} centered/>
+     
     </NavbarWrapper>
   );
 };
