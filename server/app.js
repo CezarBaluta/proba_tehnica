@@ -126,3 +126,21 @@ app.post('/login', passport.authenticate('local', { session: false }), (req, res
 app.get('/api', (req, res) => {
     res.json({ "message": ['Hello from server!',"LOL it works"] });
 });
+
+
+app.delete('/polls/:id', async (req, res) => {
+  const pollId = req.params.id.substring(1);
+console.log(pollId);
+  try {
+    const deletedPoll = await Poll.findOneAndDelete({id:pollId});
+    console.log(deletedPoll);
+    if (!deletedPoll) {
+      return res.status(404).json({ error: 'Poll not found' });
+    }
+
+    res.json({ message: 'Poll deleted successfully', deletedPoll });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
