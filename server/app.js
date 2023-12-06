@@ -141,6 +141,16 @@ app.post('/login', passport.authenticate('local', { session: false }), (req, res
           return poll.votes[index];
         }
     });
+    const savedPoll = await Poll.findOneAndUpdate(
+    
+      { id: pollId}  ,
+        { $set: { 
+          votes: updatedVotes ,
+          usersVoted: poll.usersVoted + req.user.email
+        } },
+        { new: true } 
+      );
+      res.json({ message: 'Data received successfully!', poll: savedPoll });
   }
   else{
 
@@ -148,16 +158,7 @@ app.post('/login', passport.authenticate('local', { session: false }), (req, res
     return res.status(404).json({ error: 'Already voted' });
   }
     //console.log(updatedVotes);
-    const savedPoll = await Poll.findOneAndUpdate(
     
-    { id: pollId}  ,
-      { $set: { 
-        votes: updatedVotes ,
-        usersVoted: poll.usersVoted + req.user.email
-      } },
-      { new: true } 
-    );
-    res.json({ message: 'Data received successfully!', poll: savedPoll });
   });
 
 
