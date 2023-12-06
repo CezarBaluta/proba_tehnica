@@ -2,27 +2,11 @@ import React from 'react';
 import Poll from '../poll/poll';
 import './content.css';
 
-const pollData = [{
-    title: 'Favorite Color',
-    votingType: 'single',
-    options: ['Red', 'Blue', 'Green'],
-    votes: [0, 0, 0],
-    usersVoted: [],
-  },
-  {  title: 'Favorite Color',
-    votingType: 'single',
-    options: ['Red', 'Blue', 'Green'],
-    votes: [0, 0, 0],
-    usersVoted: [],
-  },
-  {  
-    title: 'Favorite Color',
-    votingType: 'single',
-    options: ['Red', 'Blue', 'Green'],
-    votes: [0, 0, 0],
-    usersVoted: [],
+const response = await fetch('/polls');
+var pollData=[];
+if (response.ok) {
+    pollData = await response.json();
   }
-];
 
 
 
