@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import  Navbar  from "./components/navbar/navbar";
+import Footer from "./components/footer/footer";
 function App() {
 
   const [backendData, setBackendData] = useState([{}])
@@ -35,7 +36,7 @@ function App() {
   return (
     <div className = "App">
       <Navbar isLoggedIn={isLoggedIn} onLogin={Login} onLogout={Logout} />
-      
+      <Footer />
      {/*
       {(typeof backendData.message === 'undefined') ? (
         <p>Loading...</p>
