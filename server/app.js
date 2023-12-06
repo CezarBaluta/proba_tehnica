@@ -126,25 +126,35 @@ app.post('/login', passport.authenticate('local', { session: false }), (req, res
     if (!poll) {
       return res.status(404).json({ error: 'Poll not found' });
     }
-    const updatedVotes = poll.options.map((count, index) => {
-      if (index === poll.options.indexOf(selectedOption)) {
-        if(poll.votes[index] === undefined){
-          return 1;
+    if(!poll.usersVoted.includes(req.user.email)){
+      const updatedVotes = poll.options.map((count, index) => {
+        if (index === poll.options.indexOf(selectedOption)) {
+          if(poll.votes[index] === undefined){
+            return 1;
+          }
+          else
+            return poll.votes[index] + 1;
+        } else  if(poll.votes[index] === undefined){
+          return 0;
         }
-        else
-          return poll.votes[index] + 1;
-      } else  if(poll.votes[index] === undefined){
-        return 0;
-      }
-      else {
-        return poll.votes[index];
-      }
+        else {
+          return poll.votes[index];
+        }
     });
+  }
+  else{
+
+    console.log("Already voted");
+    return res.status(404).json({ error: 'Already voted' });
+  }
     //console.log(updatedVotes);
     const savedPoll = await Poll.findOneAndUpdate(
     
     { id: pollId}  ,
-      { $set: { votes: updatedVotes } },
+      { $set: { 
+        votes: updatedVotes ,
+        usersVoted: poll.usersVoted + req.user.email
+      } },
       { new: true } 
     );
     res.json({ message: 'Data received successfully!', poll: savedPoll });
