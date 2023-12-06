@@ -1,10 +1,17 @@
 
 .rowPoll {
-    width: 80%;
+    width: 100%;
+    padding-left: 10%;
+    padding-right: 10%;
     display: flex;
     margin: auto;
+    background-color: #04395E;
 }
 
+.poll-container{
+    background-color: white;
+
+}
 .colPoll {
     flex:1;
     max-width: 40%;
@@ -14,3 +21,14 @@
     align-items: center;
     margin: auto;
 }
+.colPoll p{
+    font-size: 26px;
+    font-weight: 500;
+    text-align: center;
+    color: white;
+
+}
+.colPoll img{
+    width: 130%;
+}
+

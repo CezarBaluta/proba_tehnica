@@ -12,7 +12,15 @@ if (response.ok) {
 
 const Content = () => {
   return (
+   
     <div>
+     
+       <div class = "rowPoll">
+      <div class="colPoll"> <p>Opiniile sunt mai importante ca niciodată. Platformele de sondaje permit organizatorilor să culeagă feedback direct de la audiența lor și să înțeleagă mai bine nevoile și dorințele acesteia.</p></div>
+      <div class="colPoll">
+        <img src="./Capture.png" alt="" />
+      </div>
+    </div>
       {
       pollData.map((poll, index) => {
         if (index%2==0 && index+1 < pollData.length) {
