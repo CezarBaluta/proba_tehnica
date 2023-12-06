@@ -63,7 +63,7 @@ const Poll = ({ id, title, votingType, options, votes, usersVoted }) => {
                 checked={selectedOptions.includes(option)}
                 onChange={() => handleOptionChange(option,votingType)}
               />
-              {"    "+option }
+              {  "    ("+(votes[index] ?? 0) + ")    " + option }
               {///AM ADAUGAT CARACTERE INVIZIBILE
               }
             </label>
