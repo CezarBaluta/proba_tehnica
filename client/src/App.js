@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import  Navbar  from "./components/navbar/navbar";
+import Content from './components/content/content'; 
 import Footer from "./components/footer/footer";
 function App() {
 
@@ -33,9 +34,11 @@ function App() {
     setIsLoggedIn(false);
   };
 
+
   return (
     <div className = "App">
       <Navbar isLoggedIn={isLoggedIn} onLogin={Login} onLogout={Logout} />
+      <Content />
       <Footer />
      {/*
       {(typeof backendData.message === 'undefined') ? (
