@@ -20,6 +20,11 @@ const NavBar = () => {
     setIsLoggedIn(false);
   };  
 
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true);
+    handleLoginClose();
+  };
+
   const handleLoginShow = () => setShowLogin(true);
   const handleLoginClose = () => setShowLogin(false);
 
@@ -37,16 +42,24 @@ const NavBar = () => {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
           <Nav className="ml-auto">
-            <Nav.Link onClick={handleLoginShow}>Login</Nav.Link>
-            <Nav.Link onClick={handleRegisterShow}>Register</Nav.Link>
-            <Nav.Link onClick={handlePollShow}>Add poll</Nav.Link>
-            <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+          {!isLoggedIn && (
+              <>
+                <Nav.Link onClick={handleLoginShow}>Login</Nav.Link>
+                <Nav.Link onClick={handleRegisterShow}>Register</Nav.Link>
+              </>
+            )}
+            {isLoggedIn && (
+              <>
+                <Nav.Link onClick={handlePollShow}>Add poll</Nav.Link>
+                <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+              </>
+            )}
 
           </Nav>
         </Navbar.Collapse>
       </Navbar>
 
-    <LoginModal show={showLogin} onHide={handleLoginClose} centered/>
+    <LoginModal show={showLogin} onHide={handleLoginClose} onLoginSuccess={handleLoginSuccess} centered/>
 
     <RegisterModal show={showRegister} onHide={handleRegisterClose} centered/>
     <PollModal show={showPoll} onHide={handlePollClose} centered/>

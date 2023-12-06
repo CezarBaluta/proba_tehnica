@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {  CustomModal } from './modal.styled';
 import {  Button, Form } from 'react-bootstrap';
 
-const ModalLogin = ({ show, onHide, onLogin, onLogout }) => {
+const ModalLogin = ({ show, onHide, onLogin,onLoginSuccess  }) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -24,6 +24,7 @@ const Login = async (e) => {
         onHide(); 
         setLoginState(true);
         localStorage.setItem('token', token);
+        onLoginSuccess();
       //  setIsLoggedIn(true);
     } else {
         
