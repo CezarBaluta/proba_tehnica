@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const pollSchema = new mongoose.Schema({
+    id: Number,
     title: String,
     votingType: String,
     options: [String],

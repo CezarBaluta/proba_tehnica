@@ -101,7 +101,14 @@ app.post('/login', passport.authenticate('local', { session: false }), (req, res
 
     console.log(req.body);
     const { title, votingType, options } = req.body;
+
+    const id = Math.floor(Math.random() * 1000000000);
+    while(await Poll.findOne({id})){
+      id = Math.floor(Math.random() * 1000000000);
+    }
+
     const newPoll = new Poll({
+      id,
       title,
       votingType,
       options,
@@ -116,7 +123,6 @@ app.post('/login', passport.authenticate('local', { session: false }), (req, res
    
   
 });
-
 app.get('/api', (req, res) => {
     res.json({ "message": ['Hello from server!',"LOL it works"] });
 });
