@@ -1,9 +1,10 @@
 .poll-container {
     border: 1px solid #ddd;
-    padding: 10px;
+    padding: 30px;
     margin: auto;
-
+    margin-top: 50px;
     width: 100%;
+    border-radius: 26px;
   }
   
   .poll-container button {
@@ -20,7 +21,7 @@
   }
   
   .poll-container ul {
-    
+
   }
 
 .poll-title {
@@ -31,6 +32,8 @@
 
   li{
     list-style-type: none;
+    margin-bottom: 30px;
+
   }
   
   

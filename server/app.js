@@ -82,7 +82,7 @@ app.post('/login', passport.authenticate('local', { session: false }), (req, res
 
   const verifyToken = (req, res, next) => {
     const token = req.header('Authorization')?.replace('Bearer ', '');
-  
+    console.log(token);
     if (!token) {
       return res.status(401).json({ message: 'Unauthorized: No token provided' });
     }
@@ -90,7 +90,7 @@ app.post('/login', passport.authenticate('local', { session: false }), (req, res
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       req.user = decoded;
-      console.log(decoded);
+      //console.log(req.user.email);
       next();
     } catch (error) {
       return res.status(401).json({ message: 'Unauthorized: Invalid token' });
@@ -99,9 +99,8 @@ app.post('/login', passport.authenticate('local', { session: false }), (req, res
   
   app.post('/polls', verifyToken, async  (req, res) => {
 
-    console.log(req.body);
     const { title, votingType, options } = req.body;
-
+    const email = req.user.email;
     const id = Math.floor(Math.random() * 1000000000);
     while(await Poll.findOne({id})){
       id = Math.floor(Math.random() * 1000000000);
@@ -112,10 +111,46 @@ app.post('/login', passport.authenticate('local', { session: false }), (req, res
       title,
       votingType,
       options,
+      createdBy:email,
     });
     const savedPoll = await newPoll.save();
     res.json({ message: 'Data received successfully!', saved:savedPoll });
   });
+
+  app.post('/vote/:id', verifyToken, async  (req, res) => {
+    const pollId = Number( req.params.id);
+   // console.log(pollId);
+    const { selectedOption } = req.body;
+    const poll = await Poll.findOne( { id: pollId});
+    console.log(poll);
+    if (!poll) {
+      return res.status(404).json({ error: 'Poll not found' });
+    }
+    const updatedVotes = poll.options.map((count, index) => {
+      if (index === poll.options.indexOf(selectedOption)) {
+        if(poll.votes[index] === undefined){
+          return 1;
+        }
+        else
+          return poll.votes[index] + 1;
+      } else  if(poll.votes[index] === undefined){
+        return 0;
+      }
+      else {
+        return poll.votes[index];
+      }
+    });
+    //console.log(updatedVotes);
+    const savedPoll = await Poll.findOneAndUpdate(
+    
+    { id: pollId}  ,
+      { $set: { votes: updatedVotes } },
+      { new: true } 
+    );
+    res.json({ message: 'Data received successfully!', poll: savedPoll });
+  });
+
+
 
   app.get('/polls', async (req, res) => {
     const polls = await Poll.find({});
@@ -128,15 +163,18 @@ app.get('/api', (req, res) => {
 });
 
 
-app.delete('/polls/:id', async (req, res) => {
+app.delete('/polls/:id',verifyToken, async (req, res) => {
+
   const pollId = req.params.id.substring(1);
 console.log(pollId);
   try {
+    const toDletedPoll = await Poll.findOne({id:pollId});
+    if(req.user.email === toDletedPoll.createdBy){
     const deletedPoll = await Poll.findOneAndDelete({id:pollId});
-    console.log(deletedPoll);
     if (!deletedPoll) {
       return res.status(404).json({ error: 'Poll not found' });
     }
+  }
 
     res.json({ message: 'Poll deleted successfully', deletedPoll });
   } catch (error) {

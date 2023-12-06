@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import './poll.css'; 
 
 
-const Poll = ({ title, votingType, options, votes, usersVoted }) => {
+const Poll = ({ id, title, votingType, options, votes, usersVoted }) => {
   const [selectedOptions, setSelectedOptions] = useState([]);
 
   const handleOptionChange = (option,votingType) => {
@@ -21,9 +21,30 @@ const Poll = ({ title, votingType, options, votes, usersVoted }) => {
     }
   };
 
-  const handleVote = () => {
+  const handleVote = async (id) => {
+    const token = localStorage.getItem('token');
 
-    console.log(`Voted for: ${selectedOptions}`);
+    try {
+        const response = await fetch(`http://localhost:5000/vote/${id}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ "selectedOption":selectedOptions}),
+        });
+
+        if (response.ok) {
+        const data = await response.json();
+        console.log('Data from server:', data);
+        } else {
+        console.error('Failed to post data to the server');
+        }
+    } catch (error) {
+        console.error('Error posting data:', error);
+    }
+    
+    console.log(`Voted for: ${id}`);
   };
 
   return (
@@ -37,18 +58,20 @@ const Poll = ({ title, votingType, options, votes, usersVoted }) => {
             <label>
               <input
                 type={votingType === 'single' ? 'radio' : 'checkbox'}
-                name="pollOption"
+                name="{`pollOption-${title}-${index}`}"
                 value={option}
                 checked={selectedOptions.includes(option)}
                 onChange={() => handleOptionChange(option,votingType)}
               />
-              {option}
+              {"    "+option }
+              {///AM ADAUGAT CARACTERE INVIZIBILE
+              }
             </label>
           </li>
         ))}
       </ul>
       
-      <button onClick={handleVote}>Vote</button>
+      <button onClick={() => handleVote(id)}>Vote</button>
 
      
 

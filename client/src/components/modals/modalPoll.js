@@ -4,7 +4,7 @@ import {  CustomModal } from './modalPoll.styled';
 
 const PollModal = ({ show, onHide }) => {
     const [title, setTitle] = useState('');
-    const [votingType, setVotingType] = useState('single'); // 'single' or 'multiple'
+    const [votingType, setVotingType] = useState('single'); 
     const [option1, setOption1] = useState('');
     const [option2, setOption2] = useState('');
     const [option3, setOption3] = useState('');
