@@ -1,0 +1,16 @@
+
+.rowPoll {
+    width: 80%;
+    display: flex;
+    margin: auto;
+}
+
+.colPoll {
+    flex:1;
+    max-width: 40%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+}

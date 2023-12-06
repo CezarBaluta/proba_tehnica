@@ -1,8 +1,9 @@
 .poll-container {
     border: 1px solid #ddd;
     padding: 10px;
-    margin: 10px;
-    width: 40%;
+    margin: auto;
+
+    width: 100%;
   }
   
   .poll-container button {
